@@ -40,7 +40,7 @@ public class LogicManagerTest {
     @TempDir
     public Path temporaryFolder;
 
-    private final Model model = new ModelManager();
+    private Model model = new ModelManager();
     private Logic logic;
 
     @BeforeEach
