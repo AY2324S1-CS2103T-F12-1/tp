@@ -5,6 +5,8 @@ import static java.util.Objects.requireNonNull;
 import java.util.Objects;
 
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.appointment.Appointment;
+import seedu.address.model.person.Person;
 
 /**
  * Represents the result of a command execution.
@@ -20,6 +22,12 @@ public class CommandResult {
     private final boolean exit;
     /** Confirmation for clear command should be requested. */
     private final boolean showClear;
+    /** Confirmation for overriding command should be requested. */
+    private final boolean showOverride;
+    /** Appointment that will be replaced **/
+    private Appointment appointment = null;
+    /** Person who's appointment will be replaced **/
+    private Person personToEdit = null;
 
     /**
      * Constructs a {@code CommandResult} with the specified fields, with showClear set to false.
@@ -29,6 +37,7 @@ public class CommandResult {
         this.showHelp = showHelp;
         this.exit = exit;
         this.showClear = false;
+        this.showOverride = false;
     }
 
     /**
@@ -39,6 +48,21 @@ public class CommandResult {
         this.showHelp = showHelp;
         this.exit = exit;
         this.showClear = showClear;
+        this.showOverride = false;
+    }
+
+    /**
+     * Constructs a {@code CommandResult} with the specified fields.
+     */
+    public CommandResult(String feedbackToUser, boolean showHelp, boolean exit, boolean showOverride,
+                         Person personToEdit, Appointment appointment) {
+        this.feedbackToUser = requireNonNull(feedbackToUser);
+        this.showHelp = showHelp;
+        this.exit = exit;
+        this.showOverride = showOverride;
+        this.showClear = false;
+        this.personToEdit = personToEdit;
+        this.appointment = appointment;
     }
 
     /**
@@ -63,7 +87,9 @@ public class CommandResult {
     public boolean isShowClear() {
         return showClear;
     }
-
+    public boolean isShowOverride() {
+        return showOverride;
+    }
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -97,4 +123,11 @@ public class CommandResult {
                 .toString();
     }
 
+    public Appointment getAppointment() {
+        return this.appointment;
+    }
+
+    public Person getPersonToEdit() {
+        return this.personToEdit;
+    }
 }

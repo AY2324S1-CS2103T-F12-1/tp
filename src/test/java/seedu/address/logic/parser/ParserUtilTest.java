@@ -2,6 +2,7 @@ package seedu.address.logic.parser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
@@ -28,12 +29,16 @@ public class ParserUtilTest {
     private static final String INVALID_ADDRESS = " ";
     private static final String INVALID_EMAIL = "example.com";
     private static final String INVALID_TAG = "#friend";
-    private static final String VALID_NAME = "Rachel Walker";
+    private static final String INVALID_FINANCIAL_PLAN = "Plan !!";
+    private static final String VALID_NAME_1 = "Rachel Walker";
+    private static final String VALID_NAME_2 = "Captain Kek";
     private static final String VALID_PHONE = "123456";
     private static final String VALID_ADDRESS = "123 Main Street #0505";
     private static final String VALID_EMAIL = "rachel@example.com";
     private static final String VALID_TAG_1 = "friend";
     private static final String VALID_TAG_2 = "neighbour";
+    private static final String VALID_FINANCIAL_PLAN_1 = "Plan A";
+    private static final String VALID_FINANCIAL_PLAN_2 = "Plan B";
     private static final String VALID_APPOINTMENT_DESC = "Review Insurance";
     private static final String VALID_APPOINTMENT_DATE = "01-01-2023 20:00";
     private static final String WHITESPACE = " \t\r\n";
@@ -72,14 +77,14 @@ public class ParserUtilTest {
 
     @Test
     public void parseName_validValueWithoutWhitespace_returnsName() throws Exception {
-        Name expectedName = new Name(VALID_NAME);
-        assertEquals(expectedName, ParserUtil.parseName(VALID_NAME));
+        Name expectedName = new Name(VALID_NAME_1);
+        assertEquals(expectedName, ParserUtil.parseName(VALID_NAME_1));
     }
 
     @Test
     public void parseName_validValueWithWhitespace_returnsTrimmedName() throws Exception {
-        String nameWithWhitespace = WHITESPACE + VALID_NAME + WHITESPACE;
-        Name expectedName = new Name(VALID_NAME);
+        String nameWithWhitespace = WHITESPACE + VALID_NAME_1 + WHITESPACE;
+        Name expectedName = new Name(VALID_NAME_1);
         assertEquals(expectedName, ParserUtil.parseName(nameWithWhitespace));
     }
 
@@ -221,5 +226,92 @@ public class ParserUtilTest {
 
         assertThrows(ParseException.class, () -> ParserUtil.parseAppointment(VALID_APPOINTMENT_DESC,
                 INVALID_APPOINTMENT_DATE));
+    }
+
+    @Test
+    public void validateName_validInput_success() {
+        try {
+            ParserUtil.validateName(VALID_NAME_1);
+        } catch (ParseException e) {
+            fail();
+        }
+    }
+    @Test
+    public void validateName_invalidInput_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.validateName(INVALID_NAME));
+    }
+    @Test
+    public void validateNames_validInputs_success() {
+        try {
+            ParserUtil.validateNames(Arrays.asList(VALID_NAME_1, VALID_NAME_2));
+        } catch (ParseException e) {
+            fail();
+        }
+    }
+    @Test
+    public void validateNames_invalidInputs_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.validateNames(Arrays.asList(VALID_NAME_1, INVALID_NAME)));
+    }
+    @Test
+    public void validateNames_missingInputs_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.validateNames(Arrays.asList("", INVALID_NAME)));
+    }
+    @Test
+    public void validateTag_validInput_success() {
+        try {
+            ParserUtil.validateTag(VALID_TAG_1);
+        } catch (ParseException e) {
+            fail();
+        }
+    }
+    @Test
+    public void validateTag_invalidInput_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.validateTag(INVALID_TAG));
+    }
+    @Test
+    public void validateTags_validInputs_success() {
+        try {
+            ParserUtil.validateTags(Arrays.asList(VALID_TAG_1, VALID_TAG_2));
+        } catch (ParseException e) {
+            fail();
+        }
+    }
+    @Test
+    public void validateTags_missingInputs_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.validateTags(Arrays.asList("", VALID_TAG_1)));
+    }
+    @Test
+    public void validateTags_invalidInputs_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.validateTags(Arrays.asList(VALID_NAME_1, INVALID_TAG)));
+    }
+    @Test
+    public void validateFinancialPlan_validInput_success() {
+        try {
+            ParserUtil.validateFinancialPlan(VALID_FINANCIAL_PLAN_1);
+        } catch (ParseException e) {
+            fail();
+        }
+    }
+    @Test
+    public void validateFinancialPlan_invalidInput_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.validateFinancialPlan(INVALID_FINANCIAL_PLAN));
+    }
+    @Test
+    public void validateFinancialPlans_validInputs_success() {
+        try {
+            ParserUtil.validateFinancialPlans(Arrays.asList(VALID_FINANCIAL_PLAN_1, VALID_FINANCIAL_PLAN_2));
+        } catch (ParseException e) {
+            fail();
+        }
+    }
+    @Test
+    public void validateFinancialPlans_invalidInputs_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.validateFinancialPlans(
+                        Arrays.asList(INVALID_FINANCIAL_PLAN, VALID_FINANCIAL_PLAN_1)));
+    }
+    @Test
+    public void validateFinancialPlans_missingInputs_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.validateFinancialPlans(
+                Arrays.asList("", VALID_FINANCIAL_PLAN_1)));
     }
 }

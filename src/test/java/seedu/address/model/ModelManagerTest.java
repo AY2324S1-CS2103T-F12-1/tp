@@ -19,9 +19,9 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.financialplan.FinancialPlan;
-import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.gatheremail.GatherEmailByFinancialPlan;
 import seedu.address.model.person.gatheremail.GatherEmailByTag;
+import seedu.address.model.person.predicates.NameContainsKeywordsPredicate;
 import seedu.address.testutil.AddressBookBuilder;
 
 public class ModelManagerTest {

@@ -1,0 +1,93 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":GatherCommandParser" as GatherCommandParser LOGIC_COLOR
+participant "command:GatherCommand" as GatherCommand LOGIC_COLOR
+participant ":CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant ":Model" as Model MODEL_COLOR
+participant ":AddressBook" as AddressBook MODEL_COLOR
+participant ":UniquePersonsList" as UniquePersonsList MODEL_COLOR
+participant "prompt:GatherEmailByFinancialPlan" as GatherEmailByFinancialPlan MODEL_COLOR
+participant ":Person" as Person MODEL_COLOR
+end box
+
+[-> LogicManager : execute("gather fp/Financial Plan A")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand("gather fp/Financial Plan A")
+activate AddressBookParser
+
+AddressBookParser -> GatherCommandParser: parse("fp/Financial Plan A")
+activate GatherCommandParser
+
+create GatherEmailByFinancialPlan
+GatherCommandParser -> GatherEmailByFinancialPlan: GatherEmailByFinancialPlan("Financial Plan A")
+activate GatherEmailByFinancialPlan
+GatherEmailByFinancialPlan --> GatherCommandParser
+deactivate GatherEmailByFinancialPlan
+
+create GatherCommand
+GatherCommandParser -> GatherCommand: GatherCommand(prompt)
+activate GatherCommand
+
+GatherCommand --> GatherCommandParser : command
+deactivate GatherCommand
+
+GatherCommandParser --> AddressBookParser : command
+deactivate GatherCommandParser
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+GatherCommandParser -[hidden]-> AddressBookParser
+destroy GatherCommandParser
+
+AddressBookParser --> LogicManager : command
+deactivate AddressBookParser
+
+LogicManager -> GatherCommand : execute()
+activate GatherCommand
+
+GatherCommand -> Model: gatherEmails(prompt)
+activate Model
+
+Model -> AddressBook: gatherEmails(prompt)
+activate AddressBook
+
+AddressBook -> UniquePersonsList: gatherEmails(prompt)
+activate UniquePersonsList
+
+loop through internalList
+    UniquePersonsList -> GatherEmailByFinancialPlan: gatherEmails(person)
+    activate GatherEmailByFinancialPlan
+    GatherEmailByFinancialPlan -> Person: gatherEmailsContainsFinancialPlan("Financial Plan A")
+    activate Person
+    Person --> GatherEmailByFinancialPlan: email (or Empty String)
+    deactivate Person
+    GatherEmailByFinancialPlan --> UniquePersonsList: email (or Empty String)
+    deactivate GatherEmailByFinancialPlan
+end loop
+
+UniquePersonsList --> AddressBook: emails (or Empty String)
+deactivate UniquePersonsList
+
+AddressBook --> Model: emails (or Empty String)
+deactivate AddressBook
+
+Model --> GatherCommand: emails (or Empty String)
+deactivate Model
+
+alt emails.isEmpty()
+    GatherCommand --> LogicManager: CommandResult(MESSAGE_NO_PERSON_FOUND + prompt.toString())
+else
+    GatherCommand --> LogicManager: CommandResult(emails)
+end
+    deactivate GatherCommand
+
+[<--LogicManager
+deactivate LogicManager
+@enduml

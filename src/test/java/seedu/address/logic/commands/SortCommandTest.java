@@ -36,6 +36,7 @@ public class SortCommandTest {
         SortCommand command = new SortCommand(comparator);
         expectedModel.sortFilteredPersonList(comparator);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertEquals(model.getAppointmentList(), expectedModel.getAppointmentList());
         assertEquals(Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE), model.getFilteredPersonList());
     }
 
@@ -77,6 +78,7 @@ public class SortCommandTest {
         SortCommand command = new SortCommand(comparator);
         expectedModel.sortFilteredPersonList(comparator);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertEquals(model.getAppointmentList(), expectedModel.getAppointmentList());
         assertEquals(Arrays.asList(CARL, BENSON, GEORGE, FIONA, ELLE, DANIEL, ALICE), model.getFilteredPersonList());
     }
 

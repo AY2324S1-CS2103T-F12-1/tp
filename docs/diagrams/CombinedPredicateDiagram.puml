@@ -1,0 +1,15 @@
+@startuml
+!include style.puml
+skinparam arrowThickness 1.1
+skinparam arrowColor LOGIC_COLOR_T4
+skinparam classBackgroundColor LOGIC_COLOR
+
+CombinedPredicate .up.|> "Predicate<Person>"
+CombinedPredicate --> "0...1" NameContainsKeywordsPredicate
+CombinedPredicate --> "0...1" FinancialPlanContainsKeywordsPredicate
+CombinedPredicate --> "0...1" TagContainsKeywordsPredicate
+
+FindCommandParser ..> CombinedPredicate : creates >
+FindCommandParser ..> FindCommand : creates >
+FindCommand-->CombinedPredicate
+@enduml

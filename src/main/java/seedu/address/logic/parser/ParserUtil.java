@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -8,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import seedu.address.commons.core.index.Index;
@@ -25,7 +27,7 @@ import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
 
 /**
- * Contains utility methods used for parsing strings in the various *Parser classes.
+ * Contains utility methods used for parsing and validating strings in the various *Parser classes.
  */
 public class ParserUtil {
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
@@ -244,5 +246,75 @@ public class ParserUtil {
             tagSet.add(parseTag(tagName));
         }
         return tagSet;
+    }
+    /**
+     * Validates if a {@code String name} is a valid {@code Name}.
+     *
+     * @param input String to validate.
+     * @throws ParseException if the given string is invalid.
+     */
+    public static void validateName(String input) throws ParseException {
+        if (input.isEmpty() || !Name.isValidName(input)) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, Name.MESSAGE_CONSTRAINTS));
+        }
+    }
+    /**
+     * Validates if a list of {@code String names} are valid for {@code Name} objects.
+     *
+     * @param inputs List of names to validate.
+     * @throws ParseException if any of the given names are invalid.
+     */
+    public static void validateNames(List<String> inputs) throws ParseException {
+        for (String name : inputs) {
+            validateName(name);
+        }
+    }
+    /**
+     * Validates if a {@code String financial plan} is a valid name for a {@code FinancialPlan}.
+     *
+     * @param input String to validate.
+     * @throws ParseException if the given string is invalid.
+     */
+    public static void validateFinancialPlan(String input) throws ParseException {
+        if (input.isEmpty() || !FinancialPlan.isValidFinancialPlanName(input)) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FinancialPlan.MESSAGE_CONSTRAINTS));
+        }
+    }
+    /**
+     * Validates if a list of {@code String financial plans} are valid as {@code FinancialPlan} names.
+     *
+     * @param inputs List of financial plan names to validate.
+     * @throws ParseException if any of the given names are invalid.
+     */
+    public static void validateFinancialPlans(List<String> inputs) throws ParseException {
+        for (String financialPlan : inputs) {
+            validateFinancialPlan(financialPlan);
+        }
+    }
+
+    /**
+     * Validates if a {@code String tag} is a valid name for a {@code Tag}.
+     *
+     * @param input String to validate.
+     * @throws ParseException if the given string is invalid.
+     */
+    public static void validateTag(String input) throws ParseException {
+        if (input.isEmpty() || !Tag.isValidTagName(input)) {
+            throw new ParseException(
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, Tag.MESSAGE_CONSTRAINTS));
+        }
+    }
+    /**
+     * Validates if a list of {@code String tags} are valid as {@code Tag} names.
+     *
+     * @param inputs List of tag names to validate.
+     * @throws ParseException if any of the given names are invalid.
+     */
+    public static void validateTags(List<String> inputs) throws ParseException {
+        for (String tag : inputs) {
+            validateTag(tag);
+        }
     }
 }

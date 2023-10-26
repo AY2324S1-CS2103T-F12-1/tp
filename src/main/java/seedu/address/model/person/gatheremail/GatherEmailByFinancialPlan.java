@@ -3,7 +3,7 @@ package seedu.address.model.person.gatheremail;
 import seedu.address.model.person.Person;
 
 /**
- * Gather the email of {@code Person} if {@code Person}'s Financial Plans Names contains {@code promptFp}
+ * Gathers the email of {@code Person} if {@code Person}'s Financial Plans Names contains {@code promptFp}
  * as a substring.
  */
 public class GatherEmailByFinancialPlan implements GatherEmailPrompt {
@@ -15,6 +15,9 @@ public class GatherEmailByFinancialPlan implements GatherEmailPrompt {
     public GatherEmailByFinancialPlan(String promptFp) {
         this.promptFp = promptFp;
     }
+    /**
+     * Gathers the email of {@code person} if {@code person}'s financial plan names a specific prompt.
+     */
     @Override
     public String gatherEmails(Person person) {
         return person.gatherEmailsContainsFinancialPlan(promptFp);

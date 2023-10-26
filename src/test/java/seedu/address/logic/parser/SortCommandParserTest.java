@@ -24,7 +24,7 @@ public class SortCommandParserTest {
         // no leading and trailing whitespaces
         SortCommand expectedSortCommand =
                 new SortCommand(new SortByNameComparator());
-        assertParseSuccess(parser, "sort", expectedSortCommand);
+        assertParseSuccess(parser, "name", expectedSortCommand);
     }
 
     @Test

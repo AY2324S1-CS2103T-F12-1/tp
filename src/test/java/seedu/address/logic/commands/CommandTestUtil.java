@@ -22,8 +22,8 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
-import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.predicates.NameContainsKeywordsPredicate;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 
 /**
@@ -43,6 +43,7 @@ public class CommandTestUtil {
     public static final String VALID_NEXT_OF_KIN_NAME_BOB = "Bob Dad";
     public static final String VALID_NEXT_OF_KIN_PHONE_AMY = "33333333";
     public static final String VALID_NEXT_OF_KIN_PHONE_BOB = "44444444";
+
     public static final String VALID_TAG_HUSBAND = "husband";
     public static final String VALID_TAG_FRIEND = "friend";
     public static final String VALID_FINANCIAL_PLAN_1 = "financial plan 1";

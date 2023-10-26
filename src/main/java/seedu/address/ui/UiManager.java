@@ -41,7 +41,6 @@ public class UiManager implements Ui {
 
         try {
             mainWindow = new MainWindow(primaryStage, logic);
-            mainWindow.getPrimaryStage().setMinWidth(800);
             mainWindow.show(); //This should be called before creating other UI parts
             mainWindow.fillInnerParts();
 

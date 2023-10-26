@@ -3,13 +3,13 @@ package seedu.address.logic.parser;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_FINANCIAL_PLAN;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.ParserUtil.validateFinancialPlan;
+import static seedu.address.logic.parser.ParserUtil.validateTag;
 
 import seedu.address.logic.commands.GatherCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.financialplan.FinancialPlan;
 import seedu.address.model.person.gatheremail.GatherEmailByFinancialPlan;
 import seedu.address.model.person.gatheremail.GatherEmailByTag;
-import seedu.address.model.tag.Tag;
 
 /**
  * Parses input arguments and creates a new GatherCommand object
@@ -45,19 +45,4 @@ public class GatherCommandParser implements Parser<GatherCommand> {
         throw new ParseException(
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, GatherCommand.MESSAGE_USAGE));
     }
-
-    private void validateFinancialPlan(String input) throws ParseException {
-        if (input.isEmpty() || !FinancialPlan.isValidFinancialPlanName(input)) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FinancialPlan.MESSAGE_CONSTRAINTS));
-        }
-    }
-
-    private void validateTag(String input) throws ParseException {
-        if (input.isEmpty() || !Tag.isValidTagName(input)) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, Tag.MESSAGE_CONSTRAINTS));
-        }
-    }
-
 }

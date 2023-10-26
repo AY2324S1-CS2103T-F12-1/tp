@@ -114,6 +114,8 @@ public class LogicManagerTest {
             Model expectedModel) throws CommandException, ParseException {
         CommandResult result = logic.execute(inputCommand);
         assertEquals(expectedMessage, result.getFeedbackToUser());
+        assertEquals(logic.getAppointmentList(), expectedModel.getAppointmentList());
+        assertEquals(model.getAppointmentList(), expectedModel.getAppointmentList());
         assertEquals(expectedModel, model);
     }
     /**
@@ -126,6 +128,8 @@ public class LogicManagerTest {
     private void assertCommandSuccess(Command inputCommand, String expectedMessage,
                                       Model expectedModel) throws CommandException {
         CommandResult result = logic.execute(inputCommand);
+        assertEquals(logic.getAppointmentList(), expectedModel.getAppointmentList());
+        assertEquals(model.getAppointmentList(), expectedModel.getAppointmentList());
         assertEquals(expectedMessage, result.getFeedbackToUser());
         assertEquals(expectedModel, model);
     }

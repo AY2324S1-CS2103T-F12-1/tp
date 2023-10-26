@@ -6,6 +6,9 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Helper functions for handling strings.
@@ -36,6 +39,47 @@ public class StringUtil {
 
         return Arrays.stream(wordsInPreppedSentence)
                 .anyMatch(preppedWord::equalsIgnoreCase);
+    }
+
+    /**
+     * Returns true if the {@code sentence} contains the {@code words}.
+     *   Ignores case, but a full phrase match is required.
+     *   <br>examples:<pre>
+     *       containsWordsIgnoreCase("ABc def", "abc def") == true
+     *       containsWordsIgnoreCase("ABc def", "DEF") == true
+     *       containsWordsIgnoreCase("ABc def", "ABc de") == false //not a full word match
+     *       </pre>
+     * @param sentence cannot be null
+     * @param words cannot be null, cannot be empty
+     */
+    public static boolean containsWordsIgnoreCase(String sentence, String words) {
+        requireNonNull(sentence);
+        requireNonNull(words);
+
+        String trimmedWords = words.trim();
+        checkArgument(!trimmedWords.isEmpty(), "Word parameter cannot be empty");
+        List<String> preppedWords = prepareWords(trimmedWords);
+
+        String trimmedSentence = sentence.trim();
+        if (trimmedSentence.isEmpty()) {
+            return false;
+        }
+        List<String> preppedSentence = prepareWords(sentence);
+
+        return Collections.indexOfSubList(preppedSentence, preppedWords) != -1;
+    }
+
+    /**
+     * Prepares the given words to be compared in the containsWordsIgnoreCase() method.
+     *
+     * @param words cannot be null
+     * @return the prepared list of strings
+     */
+    private static List<String> prepareWords(String words) {
+        requireNonNull(words);
+        return Arrays.stream(words.split("\\s+"))
+                .map(word -> word.toLowerCase())
+                .collect(Collectors.toList());
     }
 
     /**

@@ -96,7 +96,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
-     * Gathers the persons emails with {@code prompt} from this {@code AddressBook}.
+     * Gathers the {@code persons} emails with {@code prompt} from this {@code AddressBook}.
      */
     public String gatherEmails(GatherEmailPrompt prompt) {
         return persons.gatherEmails(prompt);

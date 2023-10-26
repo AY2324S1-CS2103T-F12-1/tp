@@ -8,6 +8,7 @@ import static seedu.address.logic.commands.CommandTestUtil.FINANCIAL_PLAN_DESC_1
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_FINANCIAL_PLAN_1;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
@@ -28,10 +29,13 @@ import seedu.address.logic.commands.GatherCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.gatheremail.GatherEmailByFinancialPlan;
 import seedu.address.model.person.gatheremail.GatherEmailByTag;
+import seedu.address.model.person.predicates.CombinedPredicate;
+import seedu.address.model.person.predicates.FinancialPlanContainsKeywordsPredicate;
+import seedu.address.model.person.predicates.NameContainsKeywordsPredicate;
+import seedu.address.model.person.predicates.TagContainsKeywordsPredicate;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.PersonUtil;
@@ -81,8 +85,15 @@ public class AddressBookParserTest {
     public void parseCommand_find() throws Exception {
         List<String> keywords = Arrays.asList("foo", "bar", "baz");
         FindCommand command = (FindCommand) parser.parseCommand(
-                FindCommand.COMMAND_WORD + " " + keywords.stream().collect(Collectors.joining(" ")));
-        assertEquals(new FindCommand(new NameContainsKeywordsPredicate(keywords)), command);
+                FindCommand.COMMAND_WORD + " "
+                        + keywords.stream().map(name -> PREFIX_NAME + name).collect(Collectors.joining(" ")));
+        assertEquals(
+                new FindCommand(
+                        new CombinedPredicate(
+                                new FinancialPlanContainsKeywordsPredicate(List.of()),
+                                new NameContainsKeywordsPredicate(keywords),
+                                new TagContainsKeywordsPredicate(List.of()))),
+                command);
     }
 
     @Test

@@ -1,4 +1,4 @@
-    ---
+---
 layout: page
 title: User Guide
 ---
@@ -8,12 +8,20 @@ optimized for use via a Command Line Interface** (CLI) while still having the be
 Graphical User Interface (GUI). If you can type fast, UNOFAS can help you manage and retrieve client's information
 better than traditional GUI apps.
 
-**Table of Contents**
-* Quick Start
-* Features
-* FAQ
-* Known Issues
-* Command Summary
+## Table of Contents
+* [Quick Start](#quick-start)
+* [Features](#features)
+  * [Help](#viewing-help--help)
+  * [List](#listing-all-persons--list)
+  * [Edit](#editing-a-person--edit)
+  * [Find](#locating-persons-by-name--find)
+  * [Gather](#gathering-clients-emails-by-financial-plan--gather)
+  * [Delete](#deleting-a-clients-contact--delete)
+  * [Clear](#clearing-all-entries--clear)
+  * [Sort](#sorting-of-data--sort)
+* [FAQ](#faq)
+* [Known Issues](#known-issues)
+* [Command Summary](#command-summary)
 
 
 --------------------------------------------------------------------------------------------------------------------
@@ -47,7 +55,7 @@ better than traditional GUI apps.
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Features
+# Features
 
 <div markdown="block" class="alert alert-info">
 
@@ -71,8 +79,10 @@ better than traditional GUI apps.
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
+
 </div>
 
+-----------------------
 ### Viewing help : `help`
 > :warning: Due to new features, help page is currently being updated.
 
@@ -81,7 +91,7 @@ Shows a message explaining how to access the help page, as well as a list of ava
 ![help message](images/helpMessage.png)
 
 Format: `help`
-
+---------------------------
 ### Adding a client's contact: `add`
 
 Add a client’s contacts to address book (name, phone number, email, home address, next-of-kin name, next-of-kin phone number) into Address Book
@@ -103,7 +113,7 @@ A person can have any number of tags (including 0)
 
 Examples:
 * `add n/John p/80101010 e/johndoe@gmail.com a/Punggol Central Blk 444 #15-32 820123 nk/Brennan nkp/82020202 [t/TAG]…​`
-
+------------------
 
 ### Listing all persons : `list`
 
@@ -111,6 +121,7 @@ Display a list of all the clients and their contact details
 
 Format: `list`
 
+--------------------------------
 ### Editing a person : `edit`
 
 Edit clients contact fields using an entry index followed by the updated details.
@@ -147,40 +158,43 @@ Address: 23 woodlands ave 123
 Next-of-Kin: Brennan
 Next-of-Kin Phone: 82020202
 `
-
+---------------
 ### Locating persons by name: `find`
 
-Finds persons whose names contain any of the given keywords.
+Finds persons whose names, tags or financial plans contain any of the specified keywords.
 
-Format: `find KEYWORD [MORE_KEYWORDS]`
+Format: `find [n/NAME]…​ [fp/FINANCIAL_PLAN]…​ [t/TAG]…​`
 
+* At least one of the optional fields must be provided.
 * The search is case-insensitive. e.g `hans` will match `Hans`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* Only the name is searched.
-* Only full words will be matched e.g. `Han` will not match `Hans`
+* For names, only full words will be matched e.g. `Han` will not match `Hans`
+* For financial plans and tags, any substring will be matched e.g. `Senior` will match `SuperSenior`
 * Persons matching at least one keyword will be returned (i.e. `OR` search).
-  e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+  e.g. `n/Hans n/Bo` will return `Hans Gruber`, `Bo Yang`
 
 Examples:
-* `find John` returns `john` and `John Doe`
-* `find alex david` returns `Alex Yeoh`, `David Li`<br>
+* `find n/John` returns `john` and `John Doe`
+* `find n/alex n/david` returns `Alex Yeoh`, `David Li`<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 
-### Gathering clients' emails by financial plan: `gather`
+### Gathering clients' emails by financial plan or tag: `gather`
 
-Gathers all the emails of persons with a desired financial plan.
+Gathers all the emails of persons with a desired financial plan or tag. 
 
-Format: `gather PROMPT`
+Format: `gather [fp/FINANCIAL PLAN]` or `gather [t/TAG]`
 
-* The search is case-sensitive. e.g `fp` will not match `Fp`
-* Persons matching at least one financial plan will be returned (i.e. `OR` search).
+* Only either Financial Plan or Tag can be searched at once.
+* The search is case-insensitive. e.g `financial` will match `FINANCIAL`
+* Persons emails return when the prompt matches a substring of at least one of their financial plan or tag names.
 
 Examples:
-* `gather Financial Plan A`
+* `gather fp/Financial Plan A`
+* `gather t/Elderly`
 
 Successful Output:
 `lowjunyu@gmail.com johndoe@gmail.com`
 
+------------
 ### Deleting a client's contact : `delete`
 
 Deletes the client contact from the contact book by their index.
@@ -200,6 +214,7 @@ Successful Output:
 `Contact Deleted!
 Low Jun Yu is removed.`
 
+----------
 ### Clearing all entries : `clear`
 
 Clears all entries from the address book. UNOFAS will ask for confirmation first to ensure it is not a mistake. Click
@@ -211,12 +226,21 @@ Example:
 * `clear`
   ![confirm clear window](images/confirmClear.png)
 
-### Sorting all entries by lexicographical order: `sort`
+----------------------------
+### Sorting of data: `sort`
 
-Sorts all the entries in lexicographical order. After sorting the list, the ordering of the entries will be changed. As a result, performing delete operations that require indexing will reference the new ordering that is currently displayed on the screen.
+Sorts all the entries with predefined sorting functionalities. After sorting the list, the ordering of the entries will be changed. As a result, performing delete operations that require indexing will reference the new ordering that is currently displayed on the screen.
 
-Format: `sort`
+**Here are the current predefined sorting functions that have been implemented**
 
+* `name` : sorts list by lexicographical ordering of name (case-insensitive).
+* `appointment`: sorts list by appointment timing in order of the earliest appointment first.
+
+Format: `sort` + `keyword`
+
+Example: `sort name` performs sorting by lexicographical ordering
+
+------------
 ### Exiting the program : `exit`
 
 Exits the program.
@@ -231,7 +255,7 @@ UNOFAS data are saved in the hard disk automatically after any command that chan
 
 UNOFAS data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
-<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+<div markdown="span" class="alert alert-warning"> :exclamation: **Caution:**
 If your changes to the data file makes its format invalid, UNOFAS will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.
 </div>
 
@@ -262,8 +286,8 @@ _Details coming soon ..._
 | **Clear**  | `clear`                                                                                                                                                                                                                 |
 | **Delete** | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                                                                     |
 | **Edit**   | `edit ENTRY_INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [nk/NEXT_KIN] [nkp/NEXT_KIN_PHONE] [t/TAG]…​`<br> e.g.,`edit 1 n/john doe a/23 woodlands ave 123`                                                     |
-| **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                                                                              |
-| **Gather** | `gather FINANCIAL_PLAN_NAME` <br> e.g., `gather Basic Insurance Plan`                                                                                                                                                   |
+| **Find**   | `find [n/NAME]…​ [fp/FINANCIAL_PLAN]…​ [t/TAG]…​`<br> e.g., `find n/James n/Jake`                                                                                                                                       |
+| **Gather** | `gather [fp/FINANCIAL PLAN]` or `gather [t/TAG]` <br> e.g., `gather fp/Basic Insurance Plan`                                                                                                                                             |
 | **List**   | `list`                                                                                                                                                                                                                  |
 | **Help**   | `help`                                                                                                                                                                                                                  |
-| **Sort**   | `sort`                                                                                                                                                                                                                  |
+| **Sort**   | `sort SORTING_FUNCTION` <br> e.g., `sort appointment`                                                                                                                                                                   |

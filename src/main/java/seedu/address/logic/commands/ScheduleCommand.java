@@ -12,6 +12,7 @@ import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.appointment.Appointment;
+import seedu.address.model.appointment.NullAppointment;
 import seedu.address.model.person.Person;
 
 /**
@@ -30,6 +31,7 @@ public class ScheduleCommand extends Command {
             + PREFIX_APPOINTMENT + "Review Insurance "
             + PREFIX_APPOINTMENT_DATE + "01-01-2023 20:00";
     public static final String MESSAGE_SCHEDULE_SUCCESS = "New appointment added: %1$s";
+    public static final String CONFIRM_OVERRIDE_MESSAGE = "Previous appointment found.";
     private final Index index;
     private final Appointment toAdd;
 
@@ -57,16 +59,22 @@ public class ScheduleCommand extends Command {
         }
 
         Person personToEdit = lastShownList.get(index.getZeroBased());
-        Person personWithApt = createPersonWithAppointment(personToEdit);
 
-        assert personWithApt.getAppointment() instanceof Appointment
-                : "Schedule Command: person should have appointment";
+        if (personToEdit.getAppointment() instanceof NullAppointment) {
+            Person personWithApt = createPersonWithAppointment(personToEdit);
 
-        toAdd.setPerson(personWithApt);
+            assert personWithApt.getAppointment() instanceof Appointment
+                    : "Schedule Command: person should have appointment";
 
-        model.setPerson(personToEdit, personWithApt);
-        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        return new CommandResult(String.format(MESSAGE_SCHEDULE_SUCCESS, Messages.format(personWithApt)));
+            toAdd.setPerson(personWithApt); //sets person to appointment
+
+            model.setPerson(personToEdit, personWithApt);
+            model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+            return new CommandResult(String.format(MESSAGE_SCHEDULE_SUCCESS, Messages.format(personWithApt)));
+        } else {
+            return new CommandResult(CONFIRM_OVERRIDE_MESSAGE,
+                    false, false, true, personToEdit, toAdd);
+        }
     }
 
     @Override

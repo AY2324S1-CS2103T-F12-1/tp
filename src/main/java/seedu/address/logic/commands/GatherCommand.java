@@ -10,7 +10,7 @@ import seedu.address.model.person.gatheremail.GatherEmailPrompt;
 
 /**
  * Gathers and lists all persons in address book emails whose details contain a given Financial Plan.
- * Keyword matching is case insensitive.
+ * Keyword matching is case-insensitive.
  */
 public class GatherCommand extends Command {
 

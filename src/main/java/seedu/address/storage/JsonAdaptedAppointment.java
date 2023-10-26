@@ -25,13 +25,6 @@ class JsonAdaptedAppointment {
         this.appointment = appointment;
     }
 
-    /**
-     * Converts a given {@code Appointment} into this class for Jackson use.
-     */
-    public JsonAdaptedAppointment(Appointment source) {
-        appointment = source.toString();
-    }
-
     @JsonValue
     public String getAptDescription() {
         return appointment;
