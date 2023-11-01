@@ -20,23 +20,22 @@ Class GatherCommand {
   +execute(): void
 }
 
-package "Gather" {
-    Class "<<interface>>\nGatherEmailPrompt" as GatherEmailPrompt {
-      +gatherEmails(Person person): void
-    }
-
-    Class GatherEmailByFinancialPlan {
-      - promptFp: String
-      +gatherEmails(Person person): void
-    }
-
-    Class GatherEmailByTag {
-      - promptTag: String
-      +gatherEmails(Person person): void
-    }
+Class "<<interface>>\nGatherEmailPrompt" as GatherEmailPrompt {
+  +gatherEmails(Person person): void
 }
 
-GatherCommandParser --> GatherCommand
+Class GatherEmailByFinancialPlan {
+  - promptFp: String
+  +gatherEmails(Person person): void
+}
+
+Class GatherEmailByTag {
+  - promptTag: String
+  +gatherEmails(Person person): void
+}
+
+GatherCommandParser .down.> GatherCommand : creates >
+GatherCommandParser .down.> GatherEmailPrompt : creates >
 GatherCommand  -right-> "1" GatherEmailPrompt
 GatherEmailByFinancialPlan .up.|>  GatherEmailPrompt
 GatherEmailByTag .up.|> GatherEmailPrompt

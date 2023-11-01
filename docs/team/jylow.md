@@ -15,7 +15,6 @@ Given below are my contributions to the project.
     * What it does: allows the user to perform sorting of list by appointment time and lexicographical order of name.
     * Justification: This feature improves the product significantly because a user can more efficiently find clients by name and the proximity of their appointments to view upcoming appointments.
     * Highlights: This enhancement creates a base to implement different sorting capabilities in the future through sorting by new comparators. It required an understanding of ObservableList interface and the way the list is being tracked by JavaFX.
-    * Credits: 
 
 * **Code Contributed**: [RepoSense](https://nus-cs2103-ay2324s1.github.io/tp-dashboard/?search=jylow&breakdown=true)
 
@@ -25,8 +24,8 @@ Given below are my contributions to the project.
     * Added documentation for the features `sort` [\#81](https://github.com/AY2324S1-CS2103T-F12-1/tp/pull/81)
 
 * **Contributions to the DG**: to be added soon.
-* 
+
 * **Community**:
-  * PRs reviewed (with non-trivial review comments): [\#125](https://github.com/AY2324S1-CS2103T-F12-1/tp/pull/125)
+  * PRs reviewed (with non-trivial review comments): [\#125](https://github.com/AY2324S1-CS2103T-F12-1/tp/pull/125) [\#133](https://github.com/AY2324S1-CS2103T-F12-1/tp/pull/133#pullrequestreview-1699166607)
 
 * **Contributions to team-based tasks**: to be added soon.

@@ -1,0 +1,29 @@
+@startuml
+!include style.puml
+skinparam arrowThickness 1.1
+skinparam arrowColor LOGIC_COLOR_T4
+skinparam classBackgroundColor LOGIC_COLOR
+
+Package Schedule as SchedulePackage<<Rectangle>>{
+
+Class LogicManager
+Class AddressBookParser
+Class ScheduleCommandParser
+Class ScheduleCommand
+Class Index
+Class CommandResult
+
+
+LogicManager -down- "1" ScheduleCommand : execute
+LogicManager -right-> "1" AddressBookParser
+AddressBookParser --right-- ScheduleCommandParser
+ScheduleCommand -right-> "1" Appointment
+ScheduleCommandParser -- ScheduleCommand
+ScheduleCommand -right-> "1" Index
+ScheduleCommand -down- CommandResult : produces
+
+
+Appointment -[hidden]down-> Index
+}
+
+@enduml

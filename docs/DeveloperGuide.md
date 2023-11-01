@@ -159,6 +159,37 @@ Classes used by multiple components are in the `seedu.addressbook.commons` packa
 
 This section describes some noteworthy details on how certain features are implemented.
 
+### Overview 
+
+The basic idea of what happens when a user types a command: 
+1. The LogicManager executes method is called and takes in the user's input.
+2. The user's input is then parsed by `AddressBookParser`, which then creates the respective `XYZCommandParser`. 
+3. `XYZCommandParser` parses the additional arguments provided by the user and creates and `XYZCommand`.
+4. `XYZCommand` then communicates with ModelManager to execute and returns a `CommandResult` which is displayed to the user.
+
+
+The flow of how a `Command` is executed is illustrated with the `Schedule` Command below.
+### Schedule Command
+
+#### Implementation Overview
+
+<img src="images/ScheduleClassDiagram.png" width="400"/>
+
+Upon entering the `Schedule Command`, 
+- The user input will be parsed by `AddressBookParser`. The `schedule` command word will be parsed and an instance of a `ScheduleCommandParser` will be created.
+- The `ScheduleCommandParser` will parse the user arguments, creating a `ScheduleCommand` that has a single `Index` and `Appointment`. 
+- The `ScheduleCommand` will then be executed by the `LogicManager`, which then adds an `Appointment` to the specified person and returns the `CommandResult` containing the success message.
+
+**Design Considerations**
+
+<img src="images/ScheduleItemClassDiagram.png" width="300"/> 
+
+- When a Person is first added to the contact book, a Person will have a `NullAppointment`. A `Person` have a compulsory 1 to 1 relationship with ScheduleItem. This is to ensure a `Person` will not have multiple appointments scheduled. 
+- When a `ScheduleCommand` is executed, the Person will be associated with an `Appointment` object that contains the appointment name and date.
+- There is only one static instance of `NullAppointment` which is returned when the method `#getNullAppointment` is called. 
+- The abstract class ScheduleItem is created so that LSP is adhered to.
+
+
 ### Gather Emails Feature
 
 The **Gather Emails** feature in our software system is a critical functionality designed to efficiently collect email addresses. This feature is facilitated through the `GatherCommand` class, which plays a central role in the process.
@@ -167,31 +198,31 @@ The **Gather Emails** feature in our software system is a critical functionality
 
 The `GatherCommand` class is instantiated by the `GatherCommandParser`, which parses user input commands. The `GatherCommandParser` class implements the following operations:
 
-- **`GatherCommandParser#parse(String args)` — Checks the prefixes (fp/ and t/) and instantiates `GatherCommand` accordingly. It passes either a `GatherEmailByFinancialPlan` or a `GatherEmailByTag` object, both implementations of the `GatherEmailPrompt` interface.
+* `GatherCommandParser#parse(String args)` — Checks the prefixes (fp/ and t/) and instantiates `GatherCommand` accordingly. It passes either a `GatherEmailByFinancialPlan` or a `GatherEmailByTag` object, both implementations of the `GatherEmailPrompt` interface.
 
 The `GatherCommand` takes in a `GatherEmailPrompt` object and passes it into the current `Model` model, subsequently interacting with the `AddressBook` and `UniquePersonsList` classes. The `GatherCommand` class implements the following operations:
 
-- **`GatherCommand#GatherCommand(GatherEmailPrompt prompt)` — Constructor that initializes the command with the provided `GatherEmailPrompt` object.
-- **`GatherCommand#execute()` —  Executes the gathering operation by calling `Model#gatherEmails(GatherEmailPrompt prompt)`.
+* `GatherCommand#GatherCommand(GatherEmailPrompt prompt)` — Constructor that initializes the command with the provided `GatherEmailPrompt` object.
+* `GatherCommand#execute()` —  Executes the gathering operation by calling `Model#gatherEmails(GatherEmailPrompt prompt)`.
 
 The `Model` interface is implemented by the `ModelManager`, representing the in-memory model of the address book data. It contains the following method:
 
-- **`ModelManager#gatherEmails(GatherEmailPrompt prompt)` —  Carries out the gathering operation by calling `AddressBook#gatherEmails(GatherEmailPrompt prompt)`.
+* `ModelManager#gatherEmails(GatherEmailPrompt prompt)` —  Carries out the gathering operation by calling `AddressBook#gatherEmails(GatherEmailPrompt prompt)`.
 
-These operations are exposed in the `AddressBook` class as `AddressBook#gatherEmails(GatherEmailsPrompt prompt)`, and in the `UniquePersonsList` class as `UniquePersonsList#gatherEmails(GatherEmailsPrompt prompt)`.
+This operation is exposed in the `AddressBook` class as `AddressBook#gatherEmails(GatherEmailsPrompt prompt)`, and in the `UniquePersonsList` class as `UniquePersonsList#gatherEmails(GatherEmailsPrompt prompt)`.
 
 The `UniquePersonsList` class maintains a list of unique persons. Additionally, it implements the following operation:
+* `UniquePersonsList#gatherEmails(GatherEmailPrompt prompt)` —  This method iterates through the persons list and calls `GatherEmailPrompt#gatherEmails(Person person)`, passing in each person. 
 
-- **`UniquePersonsList#gatherEmails(GatherEmailPrompt prompt)` —  This method iterates through the persons list and calls `GatherEmailPrompt#gatherEmails(Person person)`, passing in each person. Depending on the scenario, it triggers either `Person#gatherEmailsContainsTag(String prompt)` or `Person#gatherEmailsContainsFinancialPlan(String prompt)`.
-
-- **`Person#gatherEmailsContainsTag(String prompt)` —  Checks if the given prompt is a substring of the name of any Tag in the `Set<Tag>` of the current person.
-- **`Person#gatherEmailsContainsFinancialPlan(String prompt)` —  Checks if the given prompt is a substring of the name of any Financial Plan in the `Set<Tag>` of the current person.
+Depending on the scenario, it triggers either `Person#gatherEmailsContainsTag(String prompt)` or `Person#gatherEmailsContainsFinancialPlan(String prompt)`:
+* `Person#gatherEmailsContainsTag(String prompt)` —  Checks if the given prompt is a substring of the name of any Tag in the `Set<Tag>` of the current person.
+* `Person#gatherEmailsContainsFinancialPlan(String prompt)` —  Checks if the given prompt is a substring of the name of any Financial Plan in the `Set<Tag>` of the current person.
 
 This is the class diagram for the gather command:
 
-<img src="images/GatherClassDiagram.png" width="500"/>
+![GatherClassDiagram](images/GatherClassDiagram.png)
 
-**Aspect: Usage Scenario:**
+**Usage Scenario:**
 
 **Scenario 1:**
 User enters a gather `fp/financial plan a`. The `GatherEmailByFinancialPlan` will be initialized. Each person in the `UniquePersonList` will be passed into the `GatherEmailByFinancialPlan#gatherEmails(Person person)`.
@@ -201,11 +232,11 @@ User enters a gather `t/Elderly`. The `GatherEmailByTag` will be initialized. Ea
 
 The following sequence diagram shows how the gather operation works:
 
-<img src="images/GatherSequenceDiagram.png" width="700"/>
+![GatherSequenceDiagram](images/GatherSequenceDiagram.png)
 
 #### Design Considerations
 
-**Aspect: How Gather Executes**
+**Aspect: How implement more fields**
 
 **Alternative 1 (Current Choice):** User can only search by one Financial Plan or Tag.
 - **Pros:** Easy to implement. Limits the potential for bugs.
@@ -254,6 +285,89 @@ searching for keywords in multiple fields at the same time.
     * Pros: More flexible in usage.
     * Cons: More difficult to modify and test.
 
+### Sort Feature
+
+The **Sort** feature in our software system is designed to sort the list of clients by name as well as appointment time. This feature is facilitated through the `SortCommand` class.
+
+#### Implementation Overview
+
+The `SortCommand` class is instantiated by the `SortCommandParser`, which parses user input commands. The `SortCommandParser` class implements the following operations:
+
+- **`SortCommandParser#parse(String args)` —  Checks the sort command keyword passed in by the user. 
+
+The `SortCommand` takes in a `Comparator<Person>` object and passes it into the current `Model` model. The `SortCommand` class implements the following operations:
+
+- **`SortCommand#execute()` —  Executes the sort operation by calling `model.sortFilteredPersonList(comparator)`.
+
+The `Model` interface is implemented by the `ModelManager`, representing the in-memory model of the address book data. It contains the following method:
+
+- **`ModelManager#sortFilteredPersonList(Comparator<Person> comparator)` —  Carries out the sorting operation by setting the comparator on the list of clients wrapped in a SortedList wrapper.
+
+**Aspect: Usage Scenario:**
+
+**Scenario 1:**
+User enters a sort command `sort appointment`. The `SortByAppointmentComparator` will be initialized and used to instantiate a SortCommand that when executed causes the list to be sorted by appointment, showing the earlier appointment first.
+
+**Scenario 2:**
+User enters a sort command `sort name`. The `SortByNameComparator` will be initialized and used to instantiate a SortCommand that when executed causes the list to be sorted by lexicographical ordering of name.
+
+The following sequence diagram shows how the gather operation works:
+
+<img src="images/SortClassSequenceDiagram.png" width="700"/>
+
+#### Design Considerations
+
+**Aspect: How Sort Executes**
+
+**Aspect 1 :** User can sort by name and appointment at any time. As such, calling find on the sorted list will result in the ordering of find to also be sorted.
+- **Pros:** Improved usability of maintaining order of list throughout without the list having to be reordered after each command
+- **Cons:** Limitedsorting options as of now
+
+**Aspect 2:** After sorting the first time, it will not be possible to return the list to its original ordering
+- **Pros:** Easier implementation of the sorting function.
+- **Cons:** Unlikely, but if for some reason the user wants the list sorted back to its original order, the only way is to restart the app at the current moment.
+
+_{more aspects and alternatives to be added}_
+
+### Expanded Find feature
+
+The enhanced find mechanism is facilitated by the `CombinedPredicate` and utilises the existing FindCommand structure.
+It extends `Predicate<Person>` and is composed of up to one of a `NameContainsKeywordsPredicate`, `FinancialPlanContainsKeywordsPredicate`
+and a `TagContainsKeywordsPredicate` each. Here's a partial class diagram of the `CombinedPredicate`.
+![CombinedPredicate](images/CombinedPredicate.png)
+
+The `NameContainsKeywordsPredicate`, `FinancialPlanContainsKeywordsPredicate` and
+`TagContainsKeywordsPredicate` check a Person if the respective field contains
+any of the keywords supplied to the predicate. Note that only the `NameContainsKeywordsPredicate`
+checks for whole words, because it is rare to search for people by substrings, while `FinancialPlanContainsKeywordsPredicate`
+and `TagContainsKeywordsPredicate` allow matching for substrings because there are certain cases where it is logical to search for
+substrings e.g. `Plan A` and `Plan A Premium` are related, so they can show up in the same search.
+
+The Find command format also changes to resemble a format more similar to the `add` and `edit` commands, to allow for
+searching for keywords in multiple fields at the same time.
+
+#### Design Considerations:
+
+**Aspect: How to implement find for multiple fields**
+* **Alternative 1 (current choice):** Use one unified command and format.
+    * Pros: Easy to implement (argument multimap is available), allows for more flexible usage.
+    * Cons: May get cluttered when there are many terms.
+
+* **Alternative 2:** Take an argument to decide which field to find by.
+    * Pros: More user-friendly and natural since there is no need to use prefixes.
+    * Cons: Less flexible, slightly more difficult to implement.
+
+**Aspect: How to implement `CombinedPredicate`**
+* **Alternative 1 (current choice):** Compose it with the 3 component predicates.
+    * Pros: Easier to modify and test.
+    * Cons: Less flexible when trying to combine multiple predicates (that may be of the same type).
+
+* **Alternative 2:** Use a `Predicate<Person>` and use the `or()` method to chain predicates.
+    * Pros: More flexible in usage.
+    * Cons: More difficult to modify and test.
+
+
+
 ### Appointment Sidebar Feature
 
 The appointment sidebar is facilitated by `ModelManager`. It etends `Model` and stores and additional `SortedList<Appointment>` object that represents all the existing appointments.
@@ -273,6 +387,7 @@ The `setAppointmentList()` method always check against `filteredPersons` to look
 
 ### \[Proposed\] Undo/redo feature
 
+### \[Proposed\] Undo/redo feature
 #### Proposed Implementation
 
 The proposed undo/redo mechanism is facilitated by `VersionedAddressBook`. It extends `AddressBook` with an undo/redo history, stored internally as an `addressBookStateList` and `currentStatePointer`. Additionally, it implements the following operations:

@@ -27,12 +27,11 @@ public class CompleteCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Completes an appointment identified by "
             + "by the index number used in the displayed person list or "
-            + "by a specified date"
-            + "Parameters: INDEX(must be a positive integer) "
-            + "[" + PREFIX_APPOINTMENT_DATE + "Appointment Date] "
+            + "by a specified date\n"
+            + "Parameters: [INDEX(must be a positive integer)] "
+            + "[" + PREFIX_APPOINTMENT_DATE + "Appointment Date] *At least one parameter specified\n"
             + "Example: " + COMMAND_WORD + " 1 ";
     public static final String MESSAGE_COMPLETE_SUCCESS = "Appointments Completed!";
-    public static final String MESSAGE_NOT_COMPLETED = "At least one identifier must be provided.";
     public static final String MESSAGE_INVALID_DATE_FORMAT = "Input Date should be in format of dd-MM-yyyy";
     public static final String MESSAGE_INVALID_DATE = "Please input a valid Date";
     private final CompleteDescriptor completeDescriptor;

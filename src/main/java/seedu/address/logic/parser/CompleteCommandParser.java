@@ -47,7 +47,8 @@ public class CompleteCommandParser implements Parser<CompleteCommand> {
         }
 
         if (!completeDescriptor.isAnyFieldEdited()) {
-            throw new ParseException(CompleteCommand.MESSAGE_NOT_COMPLETED);
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    CompleteCommand.MESSAGE_USAGE));
         }
 
         return new CompleteCommand(completeDescriptor);

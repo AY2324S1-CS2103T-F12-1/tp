@@ -4,7 +4,6 @@ import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.commands.CompleteCommand.MESSAGE_INVALID_DATE;
 import static seedu.address.logic.commands.CompleteCommand.MESSAGE_INVALID_DATE_FORMAT;
-import static seedu.address.logic.commands.CompleteCommand.MESSAGE_NOT_COMPLETED;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_APPOINTMENT_DATE;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
@@ -26,7 +25,7 @@ class CompleteCommandParserTest {
     @Test
     public void parse_missingParts_failure() {
         //no index or date specified
-        assertParseFailure(parser, " ", MESSAGE_NOT_COMPLETED);
+        assertParseFailure(parser, " ", MESSAGE_INVALID_FORMAT);
     }
 
     @Test

@@ -1,0 +1,22 @@
+@startuml
+skin rose
+skinparam ActivityFontSize 15
+skinparam ArrowFontSize 12
+start
+:User executes sort command;
+
+:User input is parsed;
+
+'Since the beta syntax does not support placing the condition outside the
+'diamond we place it as the true branch instead.
+
+switch ()
+case([input = "name"])
+    :Sorts the list by name lexicographically;
+case([input = "appointment"])
+    :Sorts the list by appointment;
+case([else])
+    :throws error message;
+endswitch
+stop
+@enduml

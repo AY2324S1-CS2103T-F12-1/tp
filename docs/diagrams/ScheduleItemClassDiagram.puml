@@ -1,0 +1,29 @@
+@startuml
+hide empty methods
+hide empty attributes
+hide circle
+skinparam class {
+  BackgroundColor #9D0012
+  FontColor #FFFFFF
+      FontSize 15
+}
+
+abstract class ScheduleItem {}
+class Appointment {
+    value : String
+    date : LocalDateTime
+    person : Person
+}
+
+class NullAppointment {
+    value : String
+}
+class Person {}
+
+Appointment -up-|> ScheduleItem
+NullAppointment -up-|> ScheduleItem
+
+Person -down- "1" ScheduleItem
+Appointment -[hidden]left-> NullAppointment
+
+@enduml

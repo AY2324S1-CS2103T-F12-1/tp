@@ -1,0 +1,59 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":SortCommandParser" as SortCommandParser LOGIC_COLOR
+participant "command:SortCommand" as SortCommand LOGIC_COLOR
+participant ":SortByAppointmentComparator" as SortByAppointmentComparator LOGIC_COLOR
+participant ":CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant ":Model" as Model MODEL_COLOR
+participant ":Person" as Person MODEL_COLOR
+
+end box
+
+[-> LogicManager : execute("sort appointment")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand("sort appointment")
+activate AddressBookParser
+
+AddressBookParser -> SortCommandParser: parse("appointment")
+activate SortCommandParser
+
+create SortCommand
+SortCommandParser -> SortCommand: SortCommand(new SortByAppointmentComparator)
+activate SortCommand
+
+SortCommand --> SortByAppointmentComparator
+activate SortByAppointmentComparator
+SortByAppointmentComparator --> SortCommand
+deactivate SortByAppointmentComparator
+
+SortCommand --> Model: Model.sortFilteredPersonList(comparator)
+activate Model
+Model --> Person: setComparator
+activate Person
+Person --> Model
+deactivate Person
+Model --> CommandResult
+deactivate Model
+activate CommandResult
+CommandResult --> SortCommand
+deactivate CommandResult
+SortCommand --> SortCommandParser : command
+deactivate SortCommand
+SortCommandParser --> AddressBookParser
+deactivate SortCommandParser
+AddressBookParser --> LogicManager
+deactivate AddressBookParser
+[<- LogicManager
+deactivate LogicManager
+
+
+@enduml
