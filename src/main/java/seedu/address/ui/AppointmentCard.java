@@ -46,7 +46,6 @@ public class AppointmentCard extends UiPart<Region> {
 
         id.setText(displayedIndex + ". ");
         name.setText(appt.getName());
-        System.out.println(appt.getPerson().getName().toString());
         personName.setText(appt.getPerson().getName().toString());
         dateTime.setText(appt.getDateTime().format(DATE_FORMATTER));
     }
