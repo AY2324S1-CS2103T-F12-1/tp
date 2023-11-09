@@ -8,7 +8,8 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  * Guarantees: immutable; name is valid as declared in {@link #isValidFinancialPlanName(String)}
  */
 public class FinancialPlan {
-    public static final String MESSAGE_CONSTRAINTS = "Financial plan names should be alphanumeric or space characters";
+    public static final String MESSAGE_CONSTRAINTS = "Financial plan names should be alphanumeric or space characters, "
+                                                        + "and it should not be blank";
     public static final String VALIDATION_REGEX = "^[a-zA-Z0-9\\s]+";
 
     public final String financialPlanName;
