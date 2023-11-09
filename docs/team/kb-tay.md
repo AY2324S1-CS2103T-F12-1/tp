@@ -51,5 +51,5 @@ Given below are my contributions to the project.
   * Added documentation on implementation and design considerations for `complete` feature.
 
 
-* **Contributions to team-based tasks**: to be added soon.
+* **Contributions to team-based tasks**:
   * Review PRs of teammates. [#109](https://github.com/AY2324S1-CS2103T-F12-1/tp/pull/109) [#205](https://github.com/AY2324S1-CS2103T-F12-1/tp/pull/205) [#110](https://github.com/AY2324S1-CS2103T-F12-1/tp/pull/110)

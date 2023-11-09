@@ -754,6 +754,11 @@ to `find` but return the person's email instead.
 6. The `complete`, `add`, `edit` and `schedule` commands currently display the whole list (i.e. undoes the result of
 any `find` command) after being executed, which might cause users to become disoriented. We plan to disable this
 interaction between these commands and `find`.
+7. The `clear` command confirmation window can be manipulated using the arrow and 'Enter' keys. The window is
+initialised with the focus on the `confirm` button. This makes it possible for a user to accidentally press 'Enter'
+twice and wipe the contact book anyway, bypassing the defence mechanism entirely. We plan to make the command more
+resistant to mistakes by having the user key in a specific phrase, or to initialise the window with the focus on the
+`cancel` button instead.
 
 *{More to be added}*
 
