@@ -5,7 +5,9 @@ title: Low Jun Yu's Project Portfolio Page
 
 ### Overview
 
-To be added soon.
+UNOFAS is a desktop app for Financial Advisors (FA) to manage client’s contacts, optimized for use via a Command Line
+Interface (CLI) while still having the benefits of a Graphical User Interface (GUI). The app also includes features
+such as sorting, scheduling and other commands to query information quickly required by the FA.
 
 ### Summary of Contributions
 
@@ -34,4 +36,5 @@ Given below are my contributions to the project.
 * **Community**:
   * PRs reviewed (with non-trivial review comments): [\#125](https://github.com/AY2324S1-CS2103T-F12-1/tp/pull/125) [\#133](https://github.com/AY2324S1-CS2103T-F12-1/tp/pull/133#pullrequestreview-1699166607)
 
-* **Contributions to team-based tasks**: Released version 1.3 of the application
+* **Contributions to team-based tasks**: 
+  * Released version 1.3 of the application
