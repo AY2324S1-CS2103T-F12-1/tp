@@ -421,10 +421,10 @@ each command
 is to restart the app at the current moment.
 
 
-### Appointment Sidebar Feature
+### Appointment List Feature
 
-The appointment sidebar is facilitated by `ModelManager`. It extends `Model` and stores an additional `SortedList<Appointment>` object that represents all existing appointments.
-The `setAppointmentList()` method checks against `filteredPersons` to look for updates regarding existing `Appointment` objects. The `setAppointmentList()` method is called whenever there is a command that can potentially change the data stored, to ensure that the state of the appointment sidebar is as updated as possible. 
+The appointment list is facilitated by `ModelManager`. It extends `Model` and stores an additional `SortedList<Appointment>` object that represents all existing appointments.
+The `setAppointmentList()` method checks against `filteredPersons` to look for updates regarding existing `Appointment` objects. The `setAppointmentList()` method is called whenever there is a command that can potentially change the data stored, to ensure that the state of the appointment list is as updated as possible. 
 
 The `getAppointmentList()` method is called once during the startup of the program by `getAppointmentList()` in `LogicManager`, which is in turn called by `MainWindow`. It returns the `sortedList<Appointment>` object within `modelManager`.
 
@@ -434,13 +434,13 @@ Do note that appointments are inherently sorted by their date and time, with the
 
 **Aspect: Where to create** `SortedList<Appointment>`
 * **Alternative 1 (current choice):** Implement it within `modelManager`
-    - Pros: `SortedAppointments` object references `filteredPersons` which ensures that the appointment sidebar
+    - Pros: `SortedAppointments` object references `filteredPersons` which ensures that the appointment list
     corresponds with `persons` from `addressBook`. In this implementation, `persons` acts as the single source of truth which provides all information to `modelManager`.
-    - Cons: Errors with respect to `addressBook` will affect the appointment sidebar rendered.
+    - Cons: Errors with respect to `addressBook` will affect the appointment list rendered.
 
 * **Alternative 2:** Implement it within `addressBook`
     - Pros: `persons` and `appointmentList` are handled separately within `addressBook` and hence the appointment
-    sidebar is not dependent on `persons` in `addressBook`
+    list is not dependent on `persons` in `addressBook`
     - Cons: `filteredPersons` and `sortedAppointments` might not correspond since `sortedAppointments` is no longer
     dependent on `filteredPersons`.
 
@@ -869,11 +869,11 @@ point for testers to work on; testers are expected to do more *exploratory* test
    1. Prerequisites: List all persons using the `list` command. At least 1 person in the contact book.
 
    2. Test case: `schedule 1 ap/Appointment Name d/11-11-2025 09:00`<br>
-      Expected: The first person in the list is updated to contain the appointment details. The appointment sidebar is
+      Expected: The first person in the list is updated to contain the appointment details. The appointment list is
       updated as well.
 
    3. Test case: `schedule 1 ap/Appointment Name d/11-30-2025 09:00`<br>
-      Expected: Error details shown in the status message. List, status bar and appointment sidebar remains the same.
+      Expected: Error details shown in the status message. List, status bar and appointment list remains the same.
     
    4. Test case: `schedule 1 ap/Appointment Name d/12-11-2025 09:00` on a person who already has an appointment<br>
       Expected: A prompt will appear that causes program functionality to temporarily stop. The prompt alerts the user
@@ -888,10 +888,10 @@ point for testers to work on; testers are expected to do more *exploratory* test
       appointment.
 
    2. Test case: `complete 1`<br>
-      Expected: Appointment details removed from the first person in the list. The appointment sidebar is updated as well.
+      Expected: Appointment details removed from the first person in the list. The appointment list is updated as well.
 
    3. Test case: `complete 0`<br>
-      Expected: Error details shown in the status message. List, status bar and appointment sidebar remains the same.
+      Expected: Error details shown in the status message. List, status bar and appointment list remains the same.
 
 2. Completing by appointment date.
 
@@ -899,7 +899,7 @@ point for testers to work on; testers are expected to do more *exploratory* test
       appointment on `11-11-2025`.
 
    2. Test case: `complete d/11-11-2025`<br>
-      Expected: Appointment details removed from the 2 people in the list. The appointment sidebar is updated as well.
+      Expected: Appointment details removed from the 2 people in the list. The appointment list is updated as well.
 
 ### Clearing data
 
@@ -941,14 +941,14 @@ the find command) and the sort command at the same time. We had to spend time un
 JavaFX's `filteredList` and `sortedList` classes to finally come up with a solution to return a sorted and filtered
 list of clients.
 
-In v1.3, we updated the GUI to include an appointment sidebar to show upcoming appointments that clients have with the 
-financial advisor. We found out that the appointment sidebar is not properly updated when there are changes made to the
+In v1.3, we updated the GUI to include an appointment list to show upcoming appointments that clients have with the 
+financial advisor. We found out that the appointment list is not properly updated when there are changes made to the
 data, and they are only updated upon restarting the application. We had to spend time understanding how the Observer
-Pattern works so that changes to the appointment sidebar are being reflected instantaneously. 
+Pattern works so that changes to the appointment list are being reflected instantaneously. 
 
 Moreover, we decided to implement safety features like the clear and override prompts that prevent accidental command executions
 by the user. This required having to trace the entire code logic to understand how commands were executed and also how to 
 pause and split execution of commands to make sure that no bugs were introduced into the code.
 
 The project's difficulty level was notably high due to the complexity of implementing features such as scheduling
-appointments, gathering emails, expanded find functionality, sorting, and the introduction of an appointment sidebar.
+appointments, gathering emails, expanded find functionality, sorting, and the introduction of an appointment list.
