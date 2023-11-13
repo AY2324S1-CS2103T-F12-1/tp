@@ -34,13 +34,15 @@ Given below are my contributions to the project.
 
 
 * **Contributions to the UG**:
+  * Added introduction to UG.
   * Added and updated all UI images.
-  * Added general UI information table
+  * Added general UI information table.
 
 
 * **Contributions to the DG**:
   * Added use cases for `schedule` command, adding financial plans via the `fp/` prefix and sorting clients' contacts.
-  * Update class diagram for `Model` and `UI`
+  * Updated user stories.
+  * Updated UML class diagrams for `Model` and `UI` components.
   * Added effort section. 
 
 
