@@ -36,13 +36,14 @@ Given below are my contributions to the project.
 
 
 * **Contributions to the UG**:
-  * Updated commands for `add`, `clear`, `edit`, `find` and `help`.
+  * Updated documentation for `add`, `clear`, `edit`, `find` and `help` commands.
+  * Updated the table of contents.
 
 
 * **Contributions to the DG**:
   * Updated references to code files in the `Design` section.
   * Added implementation details for enhanced `find` command.
-  * Drafted Planned Enhancements section.
+  * Drafted `Planned Enhancements` section.
   * Contributed to `Instructions for manual testing` in DG.
 
 
@@ -56,5 +57,4 @@ Given below are my contributions to the project.
 * **Contributions to team-based tasks**:
   * Maintained issue tracker.
   * Released product for `v1.1` and `v1.3.trial`.
-  * Refactored `AddCommandParser` and `EditCommandParser` for better SLAP.
-  [#258](https://github.com/AY2324S1-CS2103T-F12-1/tp/pull/258)
+  * Refactored `AddCommandParser` and `EditCommandParser` for better SLAP
