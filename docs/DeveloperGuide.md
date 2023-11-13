@@ -298,14 +298,14 @@ The following sequence diagram shows how the gather emails by financial plan ope
 
 #### Design Considerations
 
-**Aspect: How implement more fields**
+**Aspect: How many inputs to accept**
 
 **Alternative 1 (Current Choice):** User can only search by one Financial Plan or Tag.
 - **Pros:** Easy to implement. Limits the potential for bugs.
 - **Cons:** Limited filtering options.
 
 **Alternative 2:** User can search by multiple Financial Plans or Tags.
-- **Pros:** More filtering options. Easy to scale to gather by other fields.
+- **Pros:** More flexible (e.g. gathering by a combination of financial plans and tags).
 - **Cons:** Introduces more complexity and requires additional error handling.
 
 
@@ -316,6 +316,10 @@ It extends the `find` command with the ability to search for multiple terms at o
 of `PersonContainsKeywordsPredicate`. Here's a partial class diagram of the `CombinedPredicate`.
 
 ![CombinedPredicateClassDiagram](images/CombinedPredicateClassDiagram.png)
+
+All `XYZContainsKeywordsPredicate` classes (e.g., `NameContainsKeywordsPredicate`,
+`FinancialPlanContainsKeywordsPredicate`, ...) inherit from the `PersonContainsKeywordsPredicate` interface so that
+they can be treated similarly in the `CombinedPredicate` class.
 
 In the `FindCommandParser`, `CombinedPredicate` is initialised with a `NameContainsKeywordsPredicate`,
 `FinancialPlanContainsKeywordsPredicate` and `TagContainsKeywordsPredicate`. These predicates check a `Person` if the respective field contains any of the keywords supplied to the predicate.
