@@ -20,12 +20,12 @@ use as financial advisors.
 To help you make the most of this resource, we would recommend that you take some time to read through the entire guide.
 You can then utilize the Table of Contents provided below and click on the relevant links to easily navigate through 
 the guide and access the information you might need or want to take another look at. We hope that this guide serves you well
-to help make managing your clients a more pleasant experience.i
+to help make managing your clients a more pleasant experience.
 
 ## Legend
-:information-source: Important information to take note of. <br>
+:information_source: Important information to take note of. <br>
 :bulb: Useful tips for improving usability of the application. <br>
-:caution: Mistakes to be wary of.
+:exclamation: Mistakes to be wary of.
 
 
 ## Table of Contents
