@@ -46,4 +46,4 @@ Given below are my contributions to the project.
   * Reported bugs and suggestions for other teams in the class during PED
 
 * **Contributions to team-based tasks**: 
-  * Released v1.3 and 1.4 of the application
+  * Released v1.3 and v1.4 of the application

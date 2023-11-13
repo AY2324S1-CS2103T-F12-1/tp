@@ -46,7 +46,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[portfolio](team/jylow.md)]
 
 * Role: Developer
-* Responsibilities: Debugging + Testing
+* Responsibilities: Quality Assurance + Testing
 
 ### Alyssa Png Kai Wen
 
